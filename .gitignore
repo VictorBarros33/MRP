@@ -1,0 +1,14 @@
+# Backend (Python)
+backend/.venv/
+backend/__pycache__/
+backend/*.db
+backend/*.db-journal
+
+# Frontend (Node)
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# IDE e Logs
+.vscode/
+npm-debug.log*
