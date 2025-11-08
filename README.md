@@ -1,36 +1,38 @@
-# 🚀 Projeto MRP - Planejamento de Recursos de Manufatura
+# 🚀 Projeto MRP - Módulo de Estoque
 
-Este é um projeto de um sistema de MRP (Material Requirements Planning) desenvolvido em Python com FastAPI, focado em controle de estoque em tempo real.
+Este é o repositório completo do projeto de MRP (Material Requirements Planning), focado no controle de estoque em tempo real. O projeto é um **monorepo** dividido em duas partes principais.
 
 ## 👥 Membros do Grupo
 
-* [Nome do Aluno 1]
-* [Nome do Aluno 2]
 * [Seu Nome]
+* [Nome do Aluno 2]
+* [Nome do Aluno 3]
+
+---
+
+## 📁 Estrutura do Repositório
+
+O projeto está organizado nas seguintes pastas:
+
+* **/backend**: Contém a API RESTful e WebSocket desenvolvida em Python com **FastAPI**. É responsável por toda a lógica de negócios e comunicação com o banco de dados.
+* **/frontend**: Contém a interface do usuário (UI) desenvolvida em **React (Vite)**. É a parte visual que o usuário interage e que consome a API do back-end.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Back-end:** Python
-* **Framework:** FastAPI
-* **Banco de Dados:** SQLModel e SQLite
-* **Tempo Real:** WebSockets
+* **Back-end**: Python, FastAPI, SQLModel, Uvicorn, WebSockets.
+* **Front-end**: React (Vite), JavaScript, Axios.
+* **Banco de Dados**: SQLite (um arquivo `.db` gerado dentro da pasta `backend`).
 
 ---
 
-## 🏃 Como Rodar o Projeto (Instruções de Setup)
+## 🏃 Como Rodar o Projeto
 
-Siga estes passos para ter o projeto rodando na sua máquina.
+Para rodar o projeto completo, você precisará de **dois terminais** abertos ao mesmo tempo (um para o back-end e um para o front-end).
 
-### 1. Pré-requisitos
+### 1. Clone o Repositório
 
-* Ter o [Python 3.10+](https://www.python.org/downloads/) instalado.
-* Ter o [Git](https://git-scm.com/downloads) instalado.
-
-### 2. Clonar o Repositório
-
-No seu terminal, rode o comando:
 ```bash
-git clone [URL-DO-SEU-REPOSITORIO-AQUI]
-cd projeto_mrp
+git clone [URL-DO-SEU-REPOSITORIO]
+cd projeto-mrp-estoque
