@@ -1,3 +1,4 @@
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from sqlalchemy.exc import IntegrityError
@@ -89,6 +90,20 @@ def criar_banco_e_tabelas():
 
 # Cria a nossa aplicação (o "sous-chef")
 app = FastAPI(title="Meu Sistema MRP")
+# Lista de "origens" (front-ends) que podem falar com a gente
+origins = [
+    "http://localhost:5173", # A porta do nosso front-end React/Vite
+    "http://localhost:3000", # (Opcional) Porta comum de React
+]
+
+# Adiciona o "porteiro" (Middleware) do CORS ao FastAPI
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,       # Permite as origens da lista
+    allow_credentials=True,    # Permite cookies (vamos precisar depois)
+    allow_methods=["*"],       # Permite todos os métodos (GET, POST, etc)
+    allow_headers=["*"],       # Permite todos os cabeçalhos
+)
 
 # Esta função será executada UMA VEZ quando o servidor ligar
 @app.on_event("startup")
