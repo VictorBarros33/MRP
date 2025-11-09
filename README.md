@@ -10,7 +10,7 @@
 
 | Dashboard | Inventário |
 |---|---|
-| ![Dashboard](.github/assets/dashboard.png) | ![Inventário](.github/assets/inventario.png) |
+| ![Dashboard](.github/assets/dashboard.PNG) | ![Inventário](.github/assets/inventario.PNG) |
 
 ---
 
