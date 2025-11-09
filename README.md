@@ -48,6 +48,7 @@ O projeto foi construído utilizando um moderno **Monorepo**, dividindo responsa
 ## 🚀 Como Rodar o Projeto
 
 Siga estes passos para ter o ambiente de desenvolvimento completo rodando na sua máquina.
+💡 **Dica:** Os comandos abaixo devem ser executados no **Terminal Integrado do VS Code**. Você pode abrir novos terminais clicando no ícone `+` ou usando o atalho `Ctrl + Shift + '`.
 
 ### 1. Pré-requisitos
 Certifique-se de ter instalado:
@@ -66,9 +67,15 @@ cd projeto-mrp-estoque
 ```bash
 cd backend
 python -m venv .venv
+```
 # Ativar o ambiente virtual:
-# No Windows (PowerShell): .\.venv\Scripts\activate
+# No Windows (PowerShell): 
+```bash
+.\.venv\Scripts\activate
+```
+
 # No Mac/Linux: source .venv/bin/activate
+```bash
 pip install -r requirements.txt
 python -m uvicorn main:app --reload
 ```
