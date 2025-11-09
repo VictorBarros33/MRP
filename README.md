@@ -8,8 +8,6 @@
 
 ## 🖼️ Screenshots
 
-## 🖼️ Screenshots
-
 | Dashboard | Inventário |
 |---|---|
 | ![Dashboard](.github/assets/dashboard.png) | ![Inventário](.github/assets/inventario.png) |
@@ -51,6 +49,8 @@ O projeto foi construído utilizando um moderno **Monorepo**, dividindo responsa
 
 Siga estes passos para ter o ambiente de desenvolvimento completo rodando na sua máquina.
 
+💡 **Dica:** Os comandos abaixo devem ser executados no **Terminal Integrado do VS Code**. Você pode abrir novos terminais clicando no ícone `+` ou usando o atalho `Ctrl + Shift + '`.
+
 ### 1. Pré-requisitos
 Certifique-se de ter instalado:
 * [Git](https://git-scm.com/)
@@ -60,39 +60,34 @@ Certifique-se de ter instalado:
 ### 2. Clonar o Repositório
 
 ```bash
-git clone [https://github.com/SEU_USUARIO/projeto-mrp-estoque.git](https://github.com/SEU_USUARIO/projeto-mrp-estoque.git)
+git clone [https://github.com/pedrohogs/projeto-mrp-estoque.git](https://github.com/pedrohogs/projeto-mrp-estoque.git)
 cd projeto-mrp-estoque
-
+```
 ### 3. Iniciando o Back-end (Terminal 1)
 
 ```bash
 cd backend
 python -m venv .venv
-# Ativar o ambiente virtual:
-# No Windows: .\.venv\Scripts\activate
-# No Mac/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-python -m uvicorn main:app --reload
-
-### 3. Iniciando o Back-end (Terminal 1)
-
+```
+### 4. Ativar o ambiente virtual:
+##### No Windows (PowerShell): 
 ```bash
-cd backend
-python -m venv .venv
-# Ativar o ambiente virtual:
-# No Windows (PowerShell): .\.venv\Scripts\activate
-# No Mac/Linux: source .venv/bin/activate
+.\.venv\Scripts\activate
+```
+
+##### No Mac/Linux: source .venv/bin/activate
+```bash
 pip install -r requirements.txt
 python -m uvicorn main:app --reload
+```
+O servidor estará rodando! Acesse a documentação interativa em: http://127.0.0.1:8000/docs
 
-O servidor estará rodando em: http://127.0.0.1:8000
-
-### Iniciando o Front-end (Terminal 2)
+### 5. Iniciando o Front-end (Terminal 2)
 
 ```bash
 cd frontend
 npm install
 npm run dev
-
+```
 Acesse o sistema em: http://localhost:5173
 
