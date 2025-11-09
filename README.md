@@ -10,7 +10,7 @@
 
 | Dashboard | Inventário |
 |---|---|
-| ![Dashboard](projeto_mrp_estoque/.github/assets/dashboard.jpg) | ![Inventário](projeto_mrp_estoque/.github/assets/inventario.jpg) |
+| ![Dashboard](.github/assets/dashboard.jpg) | ![Inventário](.github/assets/inventario.jpg) |
 
 ---
 
