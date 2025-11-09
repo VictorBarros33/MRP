@@ -48,6 +48,7 @@ O projeto foi construído utilizando um moderno **Monorepo**, dividindo responsa
 ## 🚀 Como Rodar o Projeto
 
 Siga estes passos para ter o ambiente de desenvolvimento completo rodando na sua máquina.
+
 💡 **Dica:** Os comandos abaixo devem ser executados no **Terminal Integrado do VS Code**. Você pode abrir novos terminais clicando no ícone `+` ou usando o atalho `Ctrl + Shift + '`.
 
 ### 1. Pré-requisitos
