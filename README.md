@@ -69,20 +69,20 @@ cd projeto-mrp-estoque
 cd backend
 python -m venv .venv
 ```
-# Ativar o ambiente virtual:
-# No Windows (PowerShell): 
+### 4. Ativar o ambiente virtual:
+##### No Windows (PowerShell): 
 ```bash
 .\.venv\Scripts\activate
 ```
 
-# No Mac/Linux: source .venv/bin/activate
+##### No Mac/Linux: source .venv/bin/activate
 ```bash
 pip install -r requirements.txt
 python -m uvicorn main:app --reload
 ```
 O servidor estará rodando em: http://127.0.0.1:8000
 
-### Iniciando o Front-end (Terminal 2)
+### 5. Iniciando o Front-end (Terminal 2)
 
 ```bash
 cd frontend
