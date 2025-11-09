@@ -4,9 +4,11 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 from sqlalchemy.exc import IntegrityError
 import datetime
 from enum import Enum
-from fastapi import WebSocket, WebSocketDisconnect, BackgroundTasks
+from fastapi import WebSocket, WebSocketDisconnect, BackgroundTasks, Path
 from typing import List
 import json # Vamos usar para formatar as mensagens
+import pandas as pd
+from statsmodels.tsa.arima.model import ARIMA
 
 class ConnectionManager:
     def __init__(self):
@@ -68,6 +70,22 @@ class MovimentacaoInput(SQLModel):
 # class Movimentacao(SQLModel, table=True):
 #     # Vamos adicionar isso mais tarde!
 #     pass
+
+# Modelo para a resposta do histórico (não é uma tabela)
+class MovimentacaoRead(SQLModel):
+    id: int
+    tipo: TipoMovimentacao
+    quantidade: int
+    data_hora: datetime.datetime
+    produto_sku: str
+    produto_nome: str
+
+# Modelo para ATUALIZAÇÃO de Produto (campos opcionais)
+class ProdutoUpdate(SQLModel):
+    nome: str | None = None
+    descricao: str | None = None
+    ponto_ressuprimento: int | None = None
+    # Nota: Não deixamos atualizar SKU (é a chave única) nem quantidade_atual (isso é via movimentação)
 
 
 # 2. CONFIGURAÇÃO DO BANCO DE DADOS
@@ -256,3 +274,153 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         # Se o cliente desconectar, remove ele da lista
         manager.disconnect(websocket)
+
+        # 11. ENDPOINT PARA EXCLUIR PRODUTO
+@app.delete("/produtos/{sku}")
+def excluir_produto(sku: str = Path(..., title="O SKU do produto a ser excluído")):
+    """
+    Exclui um produto e TODO o seu histórico de movimentações.
+    CUIDADO: Esta ação não pode ser desfeita.
+    """
+    with Session(engine) as session:
+        # 1. Busca o produto
+        statement = select(Produto).where(Produto.sku == sku)
+        produto = session.exec(statement).first()
+
+        if not produto:
+            raise HTTPException(status_code=404, detail=f"Produto com código '{sku}' não encontrado.")
+
+        # 2. (OPCIONAL, MAS RECOMENDADO) Apagar as movimentações primeiro
+        # Se não fizermos isso, ficarão registros "orfãos" no banco.
+        # Como SQLite não tem 'ON DELETE CASCADE' por padrão, fazemos manualmente.
+        statement_movs = select(Movimentacao).where(Movimentacao.produto_id == produto.id)
+        movimentacoes = session.exec(statement_movs).all()
+        for mov in movimentacoes:
+            session.delete(mov)
+
+        # 3. Apaga o produto
+        session.delete(produto)
+        session.commit()
+
+        return {"mensagem": f"Produto '{sku}' excluído com sucesso.", "sku_excluido": sku}
+    
+    # ============================================
+# 12. ENDPOINT DE PREVISÃO COM IA (SÉRIE TEMPORAL)
+# ============================================
+@app.get("/produtos/previsao/{sku}")
+def prever_estoque(sku: str = Path(..., title="SKU do produto")):
+    """
+    Usa o modelo ARIMA para analisar o histórico de SAÍDAS
+    e prever em quantos dias o estoque atual acabará.
+    """
+    with Session(engine) as session:
+        # 1. Busca o produto
+        produto = session.exec(select(Produto).where(Produto.sku == sku)).first()
+        if not produto:
+            raise HTTPException(status_code=404, detail="Produto não encontrado.")
+        
+        if produto.quantidade_atual <= 0:
+             return {"sku": sku, "previsao_dias": 0, "mensagem": "Estoque já está zerado."}
+
+        # 2. Busca o histórico de SAÍDAS
+        movimentacoes = session.exec(
+            select(Movimentacao)
+            .where(Movimentacao.produto_id == produto.id)
+            .where(Movimentacao.tipo == TipoMovimentacao.SAIDA)
+            .order_by(Movimentacao.data_hora)
+        ).all()
+
+        # IA precisa de dados! Se tiver menos de 5 saídas, não dá pra prever.
+        if len(movimentacoes) < 5:
+            return {
+                "sku": sku,
+                "previsao_dias": None,
+                "media_saida_diaria_prevista": 0,
+                "mensagem": "Dados insuficientes para previsão (mínimo 5 saídas)."
+            }
+
+        # 3. Prepara os dados com Pandas
+        df = pd.DataFrame([(m.data_hora, m.quantidade) for m in movimentacoes], columns=['data', 'qtd'])
+        df['data'] = pd.to_datetime(df['data'])
+        # Agrupa por dia, somando as saídas do mesmo dia
+        df_diario = df.set_index('data').resample('D').sum().fillna(0)
+
+        # 4. Treina o modelo ARIMA (Simples: order=(1,1,0))
+        try:
+            # (Se tiver poucos dados diários, usamos uma média simples para não quebrar)
+            if len(df_diario) < 5:
+                 media_simples = df_diario['qtd'].mean()
+                 previsao_media = media_simples
+            else:
+                modelo = ARIMA(df_diario['qtd'], order=(1, 1, 0))
+                modelo_fit = modelo.fit()
+                # Prever os próximos 7 dias para pegar uma tendência
+                forecast = modelo_fit.forecast(steps=7)
+                previsao_media = forecast.mean()
+
+            # Se a previsão for zero ou negativa (ex: devoluções), assumimos demanda zero
+            if previsao_media <= 0.1:
+                 return {"sku": sku, "previsao_dias": None, "mensagem": "Baixa movimentação recente. Não há risco imediato."}
+
+            # 5. Calcula os dias restantes
+            dias_restantes = int(produto.quantidade_atual / previsao_media)
+
+            return {
+                "sku": sku,
+                "previsao_dias": dias_restantes,
+                "media_saida_diaria_prevista": round(previsao_media, 2),
+                "mensagem": "Previsão realizada com sucesso."
+            }
+
+        except Exception as e:
+            print(f"Erro na IA: {e}")
+            
+            # ============================================
+# 13. ENDPOINT DE HISTÓRICO DE MOVIMENTAÇÕES
+# ============================================
+@app.get("/movimentacoes/historico", response_model=list[MovimentacaoRead])
+def get_historico_movimentacoes():
+    """
+    Busca todo o histórico de movimentações (entradas e saídas),
+    juntando com os dados do produto.
+    """
+    with Session(engine) as session:
+        # Criamos uma query que junta Movimentacao e Produto
+        statement = select(Movimentacao, Produto).where(Movimentacao.produto_id == Produto.id).order_by(Movimentacao.data_hora.desc())
+        
+        results = session.exec(statement).all()
+        
+        # Formatamos a resposta no modelo MovimentacaoRead
+        historico = []
+        for mov, prod in results:
+            historico.append(
+                MovimentacaoRead(
+                    id=mov.id,
+                    tipo=mov.tipo,
+                    quantidade=mov.quantidade,
+                    data_hora=mov.data_hora,
+                    produto_sku=prod.sku,
+                    produto_nome=prod.nome
+                )
+            )
+        return historico
+    
+    # ============================================
+# 14. ENDPOINT PARA ATUALIZAR PRODUTO (PUT)
+# ============================================
+@app.put("/produtos/{sku}")
+def atualizar_produto(sku: str, produto_update: ProdutoUpdate):
+    with Session(engine) as session:
+        db_produto = session.exec(select(Produto).where(Produto.sku == sku)).first()
+        if not db_produto:
+             raise HTTPException(status_code=404, detail="Produto não encontrado")
+
+        # Atualiza apenas os campos que foram enviados
+        produto_data = produto_update.dict(exclude_unset=True)
+        for key, value in produto_data.items():
+            setattr(db_produto, key, value)
+
+        session.add(db_produto)
+        session.commit()
+        session.refresh(db_produto)
+        return db_produto
