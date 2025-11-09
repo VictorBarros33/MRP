@@ -1,38 +1,92 @@
-# 🚀 Projeto MRP - Módulo de Estoque
+📦 Sistema MRP Inteligente
+Este é um projeto de MRP (Material Requirements Planning) completo, desenvolvido como um monorepo, focado em controle de estoque em tempo real com previsões de demanda usando IA.
 
-Este é o repositório completo do projeto de MRP (Material Requirements Planning), focado no controle de estoque em tempo real. O projeto é um **monorepo** dividido em duas partes principais.
+✨ Funcionalidades Principais
+CRUD Completo: Cadastro, Edição, Leitura e Exclusão de produtos.
 
-## 👥 Membros do Grupo
+Tempo Real: Atualização instantânea da interface para todos os usuários conectados via WebSockets.
 
-* [Seu Nome]
-* [Nome do Aluno 2]
-* [Nome do Aluno 3]
+Rastreabilidade: Histórico completo de todas as movimentações de entrada e saída.
 
----
+IA Preditiva: Endpoint que usa statsmodels (ARIMA) para prever em quantos dias o estoque de um item irá acabar.
 
-## 📁 Estrutura do Repositório
+Dashboard: Gráficos visuais (usando recharts) para análise rápida do nível de estoque vs. ponto mínimo.
 
-O projeto está organizado nas seguintes pastas:
+UI Moderna: Interface construída com Chakra UI, incluindo alertas, modais e tabelas.
 
-* **/backend**: Contém a API RESTful e WebSocket desenvolvida em Python com **FastAPI**. É responsável por toda a lógica de negócios e comunicação com o banco de dados.
-* **/frontend**: Contém a interface do usuário (UI) desenvolvida em **React (Vite)**. É a parte visual que o usuário interage e que consome a API do back-end.
+📁 Estrutura do Monorepo
+O projeto está organizado em duas pastas principais:
 
----
+/backend: A API em Python (FastAPI) que gerencia a lógica de negócios, banco de dados (SQLite), WebSockets e o endpoint de IA.
 
-## 🛠️ Tecnologias Utilizadas
+/frontend: A interface de usuário em React (Vite) que consome a API e exibe os dados.
 
-* **Back-end**: Python, FastAPI, SQLModel, Uvicorn, WebSockets.
-* **Front-end**: React (Vite), JavaScript, Axios.
-* **Banco de Dados**: SQLite (um arquivo `.db` gerado dentro da pasta `backend`).
+🏃 Como Rodar o Projeto Localmente
+Para rodar o projeto, você precisará de dois terminais abertos.
 
----
+1. Pré-requisitos
+Python 3.10+
 
-## 🏃 Como Rodar o Projeto
+Node.js 18+ (que inclui o npm)
 
-Para rodar o projeto completo, você precisará de **dois terminais** abertos ao mesmo tempo (um para o back-end e um para o front-end).
+Git
 
-### 1. Clone o Repositório
+2. Clonar o Repositório
+Bash
 
-```bash
-git clone [URL-DO-SEU-REPOSITORIO]
+git clone https://github.com/SEU_USUARIO/projeto-mrp-estoque.git
 cd projeto-mrp-estoque
+3. Rodando o Back-end (Terminal 1)
+Navegue até a pasta do back-end:
+
+Bash
+
+cd backend
+Crie e ative o ambiente virtual:
+
+Bash
+
+# Criar
+python -m venv .venv
+
+# Ativar (Windows)
+.\.venv\Scripts\activate
+
+# Ativar (Mac/Linux)
+source .venv/bin/activate
+Instale as dependências:
+
+Bash
+
+python -m pip install -r requirements.txt
+Inicie o servidor:
+
+Bash
+
+python -m uvicorn main:app --reload
+🎉 O back-end estará rodando em http://127.0.0.1:8000
+
+4. Rodando o Front-end (Terminal 2)
+Abra um novo terminal.
+
+Navegue até a pasta do front-end (a partir da raiz):
+
+Bash
+
+cd frontend
+Instale as dependências:
+
+Bash
+
+npm install
+Inicie o servidor de desenvolvimento:
+
+Bash
+
+npm run dev
+🎉 O front-end estará rodando em http://localhost:5173
+
+📖 Documentação da API
+Com o back-end rodando, a documentação interativa (Swagger UI) gerada automaticamente pelo FastAPI está disponível em:
+
+http://127.0.0.1:8000/docs
