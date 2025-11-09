@@ -8,8 +8,6 @@
 
 ## 🖼️ Screenshots
 
-## 🖼️ Screenshots
-
 | Dashboard | Inventário |
 |---|---|
 | ![Dashboard](.github/assets/dashboard.png) | ![Inventário](.github/assets/inventario.png) |
@@ -62,18 +60,7 @@ Certifique-se de ter instalado:
 ```bash
 git clone [https://github.com/SEU_USUARIO/projeto-mrp-estoque.git](https://github.com/SEU_USUARIO/projeto-mrp-estoque.git)
 cd projeto-mrp-estoque
-
-### 3. Iniciando o Back-end (Terminal 1)
-
-```bash
-cd backend
-python -m venv .venv
-# Ativar o ambiente virtual:
-# No Windows: .\.venv\Scripts\activate
-# No Mac/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-python -m uvicorn main:app --reload
-
+```
 ### 3. Iniciando o Back-end (Terminal 1)
 
 ```bash
@@ -84,7 +71,7 @@ python -m venv .venv
 # No Mac/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 python -m uvicorn main:app --reload
-
+```
 O servidor estará rodando em: http://127.0.0.1:8000
 
 ### Iniciando o Front-end (Terminal 2)
@@ -93,6 +80,6 @@ O servidor estará rodando em: http://127.0.0.1:8000
 cd frontend
 npm install
 npm run dev
-
+```
 Acesse o sistema em: http://localhost:5173
 
