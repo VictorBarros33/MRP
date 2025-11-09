@@ -1,92 +1,98 @@
-📦 Sistema MRP Inteligente
-Este é um projeto de MRP (Material Requirements Planning) completo, desenvolvido como um monorepo, focado em controle de estoque em tempo real com previsões de demanda usando IA.
+# 📦 Sistema MRP Inteligente
 
-✨ Funcionalidades Principais
-CRUD Completo: Cadastro, Edição, Leitura e Exclusão de produtos.
+> Um sistema completo de Planejamento de Recursos de Manufatura com controle de estoque em tempo real e previsões baseadas em IA.
 
-Tempo Real: Atualização instantânea da interface para todos os usuários conectados via WebSockets.
+![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
 
-Rastreabilidade: Histórico completo de todas as movimentações de entrada e saída.
+---
 
-IA Preditiva: Endpoint que usa statsmodels (ARIMA) para prever em quantos dias o estoque de um item irá acabar.
+## 🖼️ Screenshots
 
-Dashboard: Gráficos visuais (usando recharts) para análise rápida do nível de estoque vs. ponto mínimo.
+## 🖼️ Screenshots
 
-UI Moderna: Interface construída com Chakra UI, incluindo alertas, modais e tabelas.
+| Dashboard | Inventário |
+|---|---|
+| ![Dashboard](.github/assets/dashboard.png) | ![Inventário](.github/assets/inventario.png) |
 
-📁 Estrutura do Monorepo
-O projeto está organizado em duas pastas principais:
+---
 
-/backend: A API em Python (FastAPI) que gerencia a lógica de negócios, banco de dados (SQLite), WebSockets e o endpoint de IA.
+## ✨ Funcionalidades
 
-/frontend: A interface de usuário em React (Vite) que consome a API e exibe os dados.
+Este projeto não é apenas um CRUD. Ele inclui recursos avançados:
 
-🏃 Como Rodar o Projeto Localmente
-Para rodar o projeto, você precisará de dois terminais abertos.
+✅ **Controle Total (CRUD):** Cadastro, edição e exclusão de produtos com interface amigável.
+✅ **Tempo Real (WebSockets):** Se um usuário move o estoque, todos os outros veem a mudança instantaneamente sem recarregar a página.
+✅ **Rastreabilidade Completa:** Histórico detalhado de cada entrada e saída, com datas e quantidades.
+✅ **Inteligência Artificial:** Previsão de demanda usando o modelo estatístico ARIMA para estimar quando o estoque acabará.
+✅ **Dashboard Visual:** Gráficos interativos para análise rápida da saúde do estoque.
 
-1. Pré-requisitos
-Python 3.10+
+---
 
-Node.js 18+ (que inclui o npm)
+## 🛠️ Tecnologias Utilizadas
 
-Git
+O projeto foi construído utilizando um moderno **Monorepo**, dividindo responsabilidades de forma clara:
 
-2. Clonar o Repositório
-Bash
+### Back-end (API & IA)
+* 🐍 **Python 3.11+**
+* ⚡ **FastAPI** (Framework de alta performance)
+* 🗃️ **SQLModel & SQLite** (Banco de dados)
+* 🧠 **Statsmodels & Pandas** (IA e análise de dados)
+* 🔌 **WebSockets** (Comunicação em tempo real)
 
-git clone https://github.com/SEU_USUARIO/projeto-mrp-estoque.git
+### Front-end (Interface)
+* ⚛️ **React.js** (via Vite)
+* 💅 **Chakra UI** (Biblioteca de componentes visuais)
+* 📊 **Recharts** (Gráficos para o dashboard)
+* 📡 **Axios** (Comunicação com a API)
+
+---
+
+## 🚀 Como Rodar o Projeto
+
+Siga estes passos para ter o ambiente de desenvolvimento completo rodando na sua máquina.
+
+### 1. Pré-requisitos
+Certifique-se de ter instalado:
+* [Git](https://git-scm.com/)
+* [Python 3.10+](https://www.python.org/)
+* [Node.js 18+](https://nodejs.org/)
+
+### 2. Clonar o Repositório
+
+```bash
+git clone [https://github.com/SEU_USUARIO/projeto-mrp-estoque.git](https://github.com/SEU_USUARIO/projeto-mrp-estoque.git)
 cd projeto-mrp-estoque
-3. Rodando o Back-end (Terminal 1)
-Navegue até a pasta do back-end:
 
-Bash
+### 3. Iniciando o Back-end (Terminal 1)
 
+```bash
 cd backend
-Crie e ative o ambiente virtual:
-
-Bash
-
-# Criar
 python -m venv .venv
-
-# Ativar (Windows)
-.\.venv\Scripts\activate
-
-# Ativar (Mac/Linux)
-source .venv/bin/activate
-Instale as dependências:
-
-Bash
-
-python -m pip install -r requirements.txt
-Inicie o servidor:
-
-Bash
-
+# Ativar o ambiente virtual:
+# No Windows: .\.venv\Scripts\activate
+# No Mac/Linux: source .venv/bin/activate
+pip install -r requirements.txt
 python -m uvicorn main:app --reload
-🎉 O back-end estará rodando em http://127.0.0.1:8000
 
-4. Rodando o Front-end (Terminal 2)
-Abra um novo terminal.
+### 3. Iniciando o Back-end (Terminal 1)
 
-Navegue até a pasta do front-end (a partir da raiz):
+```bash
+cd backend
+python -m venv .venv
+# Ativar o ambiente virtual:
+# No Windows (PowerShell): .\.venv\Scripts\activate
+# No Mac/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+python -m uvicorn main:app --reload
 
-Bash
+O servidor estará rodando em: http://127.0.0.1:8000
 
+### Iniciando o Front-end (Terminal 2)
+
+```bash
 cd frontend
-Instale as dependências:
-
-Bash
-
 npm install
-Inicie o servidor de desenvolvimento:
-
-Bash
-
 npm run dev
-🎉 O front-end estará rodando em http://localhost:5173
 
-📖 Documentação da API
-Com o back-end rodando, a documentação interativa (Swagger UI) gerada automaticamente pelo FastAPI está disponível em:
+Acesse o sistema em: http://localhost:5173
 
-http://127.0.0.1:8000/docs
