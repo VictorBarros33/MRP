@@ -183,8 +183,8 @@ function App() {
 
       <VStack spacing={8} align="stretch">
         <Box textAlign="center">
-          <Heading as="h1" size="2xl" color="teal.500">Sistema MRP Inteligente</Heading>
-          <Text color="gray.500">Controlo de Estoque em Tempo Real</Text>
+          <Heading as="h1" size="2xl" color="teal.500">Sistema MRP Previsivo</Heading>
+          <Text color="gray.500">Controle de Estoque com previsão de IA integrado</Text>
         </Box>
 
         {/* 2. ADICIONAMOS A NOVA ABA "DASHBOARD" AQUI */}

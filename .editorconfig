@@ -1,0 +1,20 @@
+# .editorconfig
+# Regra principal: aplique a todos os arquivos
+root = true
+
+[*]
+# Usar 2 espaços para indentação
+indent_style = space
+indent_size = 2
+
+# Usar finais de linha LF (reforçando o que fizemos no .gitattributes)
+end_of_line = lf
+
+# Usar codificação UTF-8
+charset = utf-8
+
+# Remover espaços em branco no final das linhas
+trim_trailing_whitespace = true
+
+# Inserir uma linha em branco no final do arquivo
+insert_final_newline = true
