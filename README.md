@@ -80,7 +80,7 @@ python -m venv .venv
 pip install -r requirements.txt
 python -m uvicorn main:app --reload
 ```
-O servidor estará rodando em: http://127.0.0.1:8000
+O servidor estará rodando! Acesse a documentação interativa em: http://127.0.0.1:8000/docs
 
 ### 5. Iniciando o Front-end (Terminal 2)
 
