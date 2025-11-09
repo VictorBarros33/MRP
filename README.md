@@ -58,7 +58,7 @@ Certifique-se de ter instalado:
 ### 2. Clonar o Repositório
 
 ```bash
-git clone [https://github.com/SEU_USUARIO/projeto-mrp-estoque.git](https://github.com/SEU_USUARIO/projeto-mrp-estoque.git)
+git clone [https://github.com/pedrohogs/projeto-mrp-estoque.git](https://github.com/pedrohogs/projeto-mrp-estoque.git)
 cd projeto-mrp-estoque
 ```
 ### 3. Iniciando o Back-end (Terminal 1)
