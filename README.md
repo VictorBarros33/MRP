@@ -7,7 +7,7 @@
 ---
 
 ## 🖼️ Screenshots
-
+ 
 | Dashboard | Inventário |
 |---|---|
 | ![Dashboard](.github/assets/dashboard.png) | ![Inventário](.github/assets/inventario.png) |
